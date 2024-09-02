@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.net.URL;
 
 public class Main extends Application {
     @Override
@@ -19,6 +20,9 @@ public class Main extends Application {
         double screenWidth = rectangle.getWidth() * 0.80;
         double screenHeight = rectangle.getHeight() * 0.80;
         Scene scene = new Scene(fxmlLoader.load(), screenWidth, screenHeight);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+
         stage.setTitle("TagXplorer");
         stage.setScene(scene);
         stage.show();
