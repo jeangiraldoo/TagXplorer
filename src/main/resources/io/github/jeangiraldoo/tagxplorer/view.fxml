@@ -6,14 +6,21 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.jeangiraldoo.tagxplorer.Controller">
    <top>
       <VBox fx:id="top" BorderPane.alignment="CENTER">
-            <HBox prefHeight="800" prefWidth="1855.0">
-                  <ToolBar fx:id="mainTool" HBox.hgrow="ALWAYS">
-                    <items>
-                        <TextField fx:id="searchBar" promptText="search something" HBox.hgrow="ALWAYS" />
-                      <Button fx:id="searchButton" contentDisplay="RIGHT" mnemonicParsing="false" text="Search" textAlignment="RIGHT" />
-                    </items>
-                  </ToolBar>
-            </HBox>
+         <MenuBar fx:id="menuBar">
+             <Menu mnemonicParsing="false" text="File">
+                 <MenuItem mnemonicParsing="false" text="Close" />
+             </Menu>
+             <Menu mnemonicParsing="false" text="Edit">
+                 <MenuItem mnemonicParsing="false" text="Delete" />
+             </Menu>
+             <Menu mnemonicParsing="false" text="Help">
+                 <MenuItem mnemonicParsing="false" text="About" />
+             </Menu>
+         </MenuBar>
+          <ToolBar fx:id="searchToolBar" HBox.hgrow="ALWAYS">
+              <TextField fx:id="searchBar" promptText="search something" HBox.hgrow="ALWAYS" />
+                <Button fx:id="searchButton" contentDisplay="RIGHT" mnemonicParsing="false" text="Search" textAlignment="RIGHT" />
+          </ToolBar>
       </VBox>
    </top>
 </BorderPane>

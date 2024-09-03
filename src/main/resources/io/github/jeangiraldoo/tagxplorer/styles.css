@@ -11,9 +11,10 @@
     -fx-prompt-text-fill: rgb(50,50,50);
 }
 
-#mainTool{
+#searchToolBar, #menuBar{
     -fx-background-color: rgb(70, 70, 70);
 }
+
 #top{
-    -fx-background-color: blue;
+    -fx-background-color: red;
 }
