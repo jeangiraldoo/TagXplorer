@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="io.github.jeangiraldoo.tagxplorer.Controller">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
-
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.jeangiraldoo.tagxplorer.Controller">
+   <top>
+      <VBox fx:id="top" BorderPane.alignment="CENTER">
+            <HBox prefHeight="800" prefWidth="1855.0">
+                  <ToolBar fx:id="mainTool" HBox.hgrow="ALWAYS">
+                    <items>
+                        <TextField fx:id="searchBar" promptText="search something" HBox.hgrow="ALWAYS" />
+                      <Button fx:id="searchButton" contentDisplay="RIGHT" mnemonicParsing="false" text="Search" textAlignment="RIGHT" />
+                    </items>
+                  </ToolBar>
+            </HBox>
+      </VBox>
+   </top>
+</BorderPane>

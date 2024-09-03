@@ -1,0 +1,19 @@
+#searchButton{
+    -fx-background-color: rgb(100, 100, 100);
+    -fx-text-fill: white;
+}
+#searchButton:hover{
+    -fx-background-color: rgb(120,120,120);
+}
+
+#searchBar{
+    -fx-background-color:rgb(200,200,200);
+    -fx-prompt-text-fill: rgb(50,50,50);
+}
+
+#mainTool{
+    -fx-background-color: rgb(70, 70, 70);
+}
+#top{
+    -fx-background-color: blue;
+}

@@ -3,25 +3,30 @@ package io.github.jeangiraldoo.tagxplorer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
-import java.net.URL;
+
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view.fxml"));
+        Parent root = fxmlLoader.load();
         Screen screen = Screen.getPrimary();
         Rectangle2D rectangle = screen.getVisualBounds();
-        double screenWidth = rectangle.getWidth() * 0.80;
-        double screenHeight = rectangle.getHeight() * 0.80;
-        Scene scene = new Scene(fxmlLoader.load(), screenWidth, screenHeight);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        double screenWidth = rectangle.getWidth();
+        double screenHeight = rectangle.getHeight();
+        double finalScreenWidth = screenWidth  * 0.80;
+        double finalScreenHeight = screenHeight * 0.80;
 
+        Controller controller = fxmlLoader.getController();
+        controller.setNodeSize(screenWidth, screenHeight);
+
+        Scene scene = new Scene(root, finalScreenWidth, finalScreenHeight);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         stage.setTitle("TagXplorer");
         stage.setScene(scene);
