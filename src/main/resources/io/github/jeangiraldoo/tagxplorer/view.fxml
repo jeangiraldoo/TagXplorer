@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.jeangiraldoo.tagxplorer.Controller">
    <top>
       <VBox fx:id="top" BorderPane.alignment="CENTER">
@@ -23,4 +25,12 @@
           </ToolBar>
       </VBox>
    </top>
+   <left>
+       <VBox>
+           <TreeView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+           </TreeView>
+       </VBox>
+
+   </left>
 </BorderPane>
