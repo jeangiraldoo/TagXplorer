@@ -7,8 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import java.io.File;
 import java.io.IOException;
-
 
 public class Main extends Application {
     @Override
@@ -23,10 +23,17 @@ public class Main extends Application {
         double finalScreenHeight = screenHeight * 0.80;
 
         Controller controller = fxmlLoader.getController();
-        controller.setNodeSize(screenWidth, screenHeight);
+        controller.setScreenWidth(screenWidth);
+        controller.setScreenHeight(screenHeight);
+        controller.initializeUI();
 
         Scene scene = new Scene(root, finalScreenWidth, finalScreenHeight);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+        FileSystemManager manager = new FileSystemManager();
+        File[] files = manager.getDirectoryFiles(manager.getCurrentPath());
+
+        controller.updateFiles(files);
 
         stage.setTitle("TagXplorer");
         stage.setScene(scene);
@@ -35,5 +42,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
+
+
+
     }
 }

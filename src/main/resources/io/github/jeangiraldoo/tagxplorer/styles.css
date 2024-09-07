@@ -1,9 +1,5 @@
-#searchButton{
-    -fx-background-color: rgb(100, 100, 100);
-    -fx-text-fill: white;
-}
-#searchButton:hover{
-    -fx-background-color: rgb(120,120,120);
+#searchToolBar, #menuBar{
+    -fx-background-color: rgb(70, 70, 70);
 }
 
 #searchBar{
@@ -11,10 +7,23 @@
     -fx-prompt-text-fill: rgb(50,50,50);
 }
 
-#searchToolBar, #menuBar{
-    -fx-background-color: rgb(70, 70, 70);
+#searchButton{
+    -fx-background-color: rgb(100, 100, 100);
+    -fx-text-fill: white;
 }
 
-#top{
-    -fx-background-color: red;
+#searchButton:hover{
+    -fx-background-color: rgb(120,120,120);
 }
+
+#fileContainer, #sizeContainer{
+    -fx-background-color: rgb(40, 40, 40);
+}
+
+#fileContainer .label, #sizeContainer .label{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+
+
