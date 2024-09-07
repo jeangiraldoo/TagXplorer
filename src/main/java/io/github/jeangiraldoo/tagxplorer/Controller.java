@@ -1,8 +1,11 @@
 package io.github.jeangiraldoo.tagxplorer;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import java.io.File;
 
@@ -49,6 +52,46 @@ public class Controller {
         sizeContainer.setPrefHeight(fileScroll.getPrefHeight());
         sizeContainer.setMinHeight(fileScroll.getPrefHeight());
     }
+    public void fileMouseClick(MouseEvent event, File file, Label fileLabel, Label sizeLabel){
+        if(event.getClickCount() == 2){
+            System.out.println(fileLabel.getText());
+            cleanExplorer();
+            initializeUI();
+            String newPath = file.getAbsolutePath();
+            File[] newFiles = manager.getDirectoryFiles(newPath);
+            if(newFiles.length > 0){
+                updateFiles(newFiles);
+            }
+        }else if(event.getClickCount() == 1){
+            removeStyles();
+            fileLabel.setUserData(true);
+            sizeLabel.setUserData(true);
+            fileHighlight(fileLabel, sizeLabel);
+        }
+    }
+    public void fileHighlight(Label fileLabel, Label sizeLabel){
+        fileLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
+        sizeLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
+    }
+    public void fileMouseLeaveHover(Label fileLabel, Label sizeLabel){
+        if(!(Boolean) fileLabel.getUserData()){
+            fileLabel.setStyle(null);
+            sizeLabel.setStyle(null);
+        }
+    }
+
+    public void removeStyles(){
+        ObservableList<Node> fileContainerChildren = fileContainer.getChildren();
+        ObservableList<Node> sizeContainerChildren = sizeContainer.getChildren();
+        for(Node child:fileContainerChildren){
+            child.setStyle(null);
+            child.setUserData(false);
+        }
+        for(Node child:sizeContainerChildren){
+            child.setStyle(null);
+            child.setUserData(false);
+        }
+    }
 
     public void updateFiles(File[] files){
         String formattedSize;
@@ -61,7 +104,6 @@ public class Controller {
         sizeTitle.setPadding(new Insets(screenHeight * 0.01));
         fileContainer.getChildren().add(nameTitle);
         sizeContainer.getChildren().add(sizeTitle);
-        System.out.println(files.length);
         for(File file:files){
             Label sizeLabel;
             Label fileLabel;
@@ -86,42 +128,16 @@ public class Controller {
                 sizeLabel.setPrefWidth(sizeContainer.getPrefWidth());
                 sizeLabel.setPadding(new Insets(0, 0, 10, 0));
             }
-            fileLabel.setOnMouseClicked(event ->{
-                System.out.println(fileLabel.getText());
-                cleanExplorer();
-                initializeUI();
-                String newPath = file.getAbsolutePath();
-                File[] newFiles = manager.getDirectoryFiles(newPath);
-                if(newFiles.length > 0){
-                    updateFiles(newFiles);
-                }
-            });
-            sizeLabel.setOnMouseClicked(mouseEvent ->{
-                System.out.println(fileLabel.getText());
-                cleanExplorer();
-                initializeUI();
-                String newPath = file.getAbsolutePath();
-                File[] newFiles = manager.getDirectoryFiles(newPath);
-                if(newFiles.length > 0){
-                    updateFiles(newFiles);
-                }
-            });
-            fileLabel.setOnMouseEntered(event -> {
-                fileLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
-                sizeLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
-            });
-            fileLabel.setOnMouseExited(event -> {
-                fileLabel.setStyle(null);
-                sizeLabel.setStyle(null);
-            });
-            sizeLabel.setOnMouseEntered(event -> {
-                fileLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
-                sizeLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
-            });
-            sizeLabel.setOnMouseExited(event -> {
-                fileLabel.setStyle(null);
-                sizeLabel.setStyle(null);
-            });
+            fileLabel.setUserData(false);
+            sizeLabel.setUserData(false);
+            fileLabel.setOnMouseClicked(event ->fileMouseClick(event, file, fileLabel, sizeLabel));
+            sizeLabel.setOnMouseClicked(event -> fileMouseClick(event, file, fileLabel, sizeLabel));
+
+            fileLabel.setOnMouseEntered(event -> fileHighlight(fileLabel, sizeLabel));
+            fileLabel.setOnMouseExited(event -> fileMouseLeaveHover(fileLabel, sizeLabel));
+            sizeLabel.setOnMouseEntered(event -> fileHighlight(fileLabel, sizeLabel));
+            sizeLabel.setOnMouseExited(event -> fileMouseLeaveHover(fileLabel, sizeLabel));
+
             sizeLabel.setPadding(new Insets(0, 0, 0, sizeContainer.getPrefWidth() * 0.01));
             fileLabel.setPadding(new Insets(0, 0, 0, fileContainer.getPrefWidth() * 0.01));
             sizeContainer.getChildren().add(sizeLabel);
