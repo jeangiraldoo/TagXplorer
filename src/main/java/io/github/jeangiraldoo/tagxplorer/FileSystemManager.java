@@ -8,6 +8,7 @@ public class FileSystemManager {
     private String userName;
     private String homePath;
     private String currentPath;
+    private String previousPath;
 
     public FileSystemManager(){
         String operatingSystem = System.getProperty("os.name");
@@ -25,6 +26,30 @@ public class FileSystemManager {
         return directory.listFiles();
 
     }
+    public String getFormattedSize(Double size){
+        String formattedSize;
+        Double newSize;
+        String unit = "";
+        Double KB = size/1024;
+        Double MB = KB/1024;
+        Double GB = MB/1024;
+        if(KB <= 1){
+            newSize = size;
+            unit = "Bytes";
+        }else if(MB <= 1){
+            newSize = KB;
+            unit = "KB";
+        } else if (GB <= 1) {
+            newSize = MB;
+            unit = "MB";
+        }else{
+            newSize = GB;
+            unit = "GB";
+        }
+        String roundedSize = String.format("%.2f", newSize);
+        formattedSize = roundedSize + " " + unit;
+        return formattedSize;
+    }
     public String getUserName(){
         return userName;
     }
@@ -36,5 +61,12 @@ public class FileSystemManager {
     }
     public String getCurrentPath(){
         return currentPath;
+    }
+    public String getPreviousPath(){ return previousPath;}
+    public void setCurrentPath(String path){
+        this.currentPath = path;
+    }
+    public void setPreviousPath(String path){
+        this.previousPath = path;
     }
 }

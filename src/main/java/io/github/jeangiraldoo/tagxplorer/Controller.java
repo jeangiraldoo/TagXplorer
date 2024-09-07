@@ -55,9 +55,11 @@ public class Controller {
     public void fileMouseClick(MouseEvent event, File file, Label fileLabel, Label sizeLabel){
         if(event.getClickCount() == 2){
             System.out.println(fileLabel.getText());
+            manager.setPreviousPath(file.getParentFile().getAbsolutePath());
             cleanExplorer();
             initializeUI();
             String newPath = file.getAbsolutePath();
+            System.out.println(newPath);
             File[] newFiles = manager.getDirectoryFiles(newPath);
             if(newFiles.length > 0){
                 updateFiles(newFiles);
@@ -109,8 +111,8 @@ public class Controller {
             Label fileLabel;
             if(file.isFile()){
                 fileLabel = new Label(file.getName());
-                double size = file.length() / (1024.0 * 1024.0);
-                formattedSize = String.format("%.5f MB", size);
+                Long size = file.length();
+                formattedSize = manager.getFormattedSize(size.doubleValue());
 
                 sizeLabel = new Label(formattedSize);
                 sizeLabel.setPrefWidth(sizeContainer.getPrefWidth());
@@ -120,7 +122,6 @@ public class Controller {
                 fileLabel.setPadding(new Insets(0, 0, 10, 0));
             } else {
                 fileLabel = new Label(file.getName());
-
                 fileLabel.setPrefWidth(fileContainer.getPrefWidth());
                 fileLabel.setPadding(new Insets(0, 0, 10, 0));
 
