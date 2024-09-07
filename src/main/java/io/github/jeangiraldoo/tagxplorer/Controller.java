@@ -9,6 +9,7 @@ import java.io.File;
 public class Controller {
     private double screenWidth;
     private double screenHeight;
+    private FileSystemManager manager;
     @FXML
     private ToolBar searchToolBar;
     @FXML
@@ -29,6 +30,7 @@ public class Controller {
         searchButton.setOnAction(event -> {
             System.out.println("siuuu");
         });
+        manager = new FileSystemManager();
     }
 
     public void initializeUI(){
@@ -37,10 +39,15 @@ public class Controller {
         top.setPrefHeight(topHeight);
         menuBar.setPrefHeight(topHeight * 0.3);
         searchToolBar.setPrefHeight(topHeight * 0.7);
-        fileScroll.setPrefWidth(screenWidth * 1);
+        fileScroll.setPrefWidth(screenWidth);
+        fileScroll.setPrefHeight(screenHeight - topHeight);
         fileScroll.setFitToWidth(false);
         fileContainer.setPrefWidth(fileScroll.getPrefWidth() * 0.5);
-        sizeContainer.setPrefWidth(fileScroll.getPrefWidth() * 0.5);
+        fileContainer.setPrefHeight(fileScroll.getPrefHeight());
+        fileContainer.setMinHeight(fileScroll.getPrefHeight());
+        sizeContainer.setPrefWidth(fileScroll.getPrefWidth());
+        sizeContainer.setPrefHeight(fileScroll.getPrefHeight());
+        sizeContainer.setMinHeight(fileScroll.getPrefHeight());
     }
 
     public void updateFiles(File[] files){
@@ -54,6 +61,7 @@ public class Controller {
         sizeTitle.setPadding(new Insets(screenHeight * 0.01));
         fileContainer.getChildren().add(nameTitle);
         sizeContainer.getChildren().add(sizeTitle);
+        System.out.println(files.length);
         for(File file:files){
             Label sizeLabel;
             Label fileLabel;
@@ -80,9 +88,23 @@ public class Controller {
             }
             fileLabel.setOnMouseClicked(event ->{
                 System.out.println(fileLabel.getText());
+                cleanExplorer();
+                initializeUI();
+                String newPath = file.getAbsolutePath();
+                File[] newFiles = manager.getDirectoryFiles(newPath);
+                if(newFiles.length > 0){
+                    updateFiles(newFiles);
+                }
             });
             sizeLabel.setOnMouseClicked(mouseEvent ->{
                 System.out.println(fileLabel.getText());
+                cleanExplorer();
+                initializeUI();
+                String newPath = file.getAbsolutePath();
+                File[] newFiles = manager.getDirectoryFiles(newPath);
+                if(newFiles.length > 0){
+                    updateFiles(newFiles);
+                }
             });
             fileLabel.setOnMouseEntered(event -> {
                 fileLabel.setStyle("-fx-background-color: rgb(0, 204, 255);");
@@ -105,6 +127,11 @@ public class Controller {
             sizeContainer.getChildren().add(sizeLabel);
             fileContainer.getChildren().add(fileLabel);
         }
+    }
+
+    public void cleanExplorer(){
+        fileContainer.getChildren().clear();
+        sizeContainer.getChildren().clear();
     }
 
     public double getScreenWidth(){
