@@ -107,16 +107,16 @@ public class Controller {
                 }
             });
             fileLabel.setOnMouseEntered(event -> {
-                fileLabel.setStyle("-fx-background-color: rgb(0, 204, 255);");
-                sizeLabel.setStyle("-fx-background-color: rgb(0, 204, 255);");
+                fileLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
+                sizeLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
             });
             fileLabel.setOnMouseExited(event -> {
                 fileLabel.setStyle(null);
                 sizeLabel.setStyle(null);
             });
             sizeLabel.setOnMouseEntered(event -> {
-                fileLabel.setStyle("-fx-background-color: rgb(0, 204, 255);");
-                sizeLabel.setStyle("-fx-background-color: rgb(0, 204, 255);");
+                fileLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
+                sizeLabel.setStyle("-fx-background-color: rgb(100, 100, 100);");
             });
             sizeLabel.setOnMouseExited(event -> {
                 fileLabel.setStyle(null);
