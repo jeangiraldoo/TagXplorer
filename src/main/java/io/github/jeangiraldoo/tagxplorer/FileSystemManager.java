@@ -19,6 +19,7 @@ public class FileSystemManager {
         if(Objects.equals(this.operatingSystem, "Windows 11")){
             this.homePath = "C:\\Users\\" + userName;
             this.currentPath = "C:\\Users\\" + userName;
+            this.previousPath = "C:\\Users\\" + userName;
         }
     }
     public File[] getDirectoryFiles(String dir){

@@ -18,6 +18,8 @@
              </Menu>
          </MenuBar>
           <ToolBar fx:id="searchToolBar" HBox.hgrow="ALWAYS">
+              <Button fx:id="backButton" text="&lt;-"/>
+              <TextField fx:id="urlBar" HBox.hgrow="ALWAYS" />
               <TextField fx:id="searchBar" promptText="search something" HBox.hgrow="ALWAYS" />
                 <Button fx:id="searchButton" contentDisplay="RIGHT" mnemonicParsing="false" text="Search" textAlignment="RIGHT" />
           </ToolBar>

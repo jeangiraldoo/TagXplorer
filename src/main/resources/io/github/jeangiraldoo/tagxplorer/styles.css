@@ -7,12 +7,12 @@
     -fx-prompt-text-fill: rgb(50,50,50);
 }
 
-#searchButton{
+#searchButton, #backButton{
     -fx-background-color: rgb(100, 100, 100);
     -fx-text-fill: white;
 }
 
-#searchButton:hover{
+#searchButton:hover, #backButton:hover{
     -fx-background-color: rgb(120,120,120);
 }
 

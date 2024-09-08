@@ -10,13 +10,13 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 
 public class Controller {
-    private double screenWidth;
-    private double screenHeight;
+    private double screenWidth, screenHeight;
     private FileSystemManager manager;
+
     @FXML
     private ToolBar searchToolBar;
     @FXML
-    private Button searchButton;
+    private Button searchButton, backButton;
     @FXML
     private VBox top;
     @FXML
@@ -24,16 +24,27 @@ public class Controller {
     @FXML
     private ScrollPane fileScroll;
     @FXML
-    private VBox fileContainer;
+    private VBox fileContainer, sizeContainer;
     @FXML
-    private  VBox sizeContainer;
+    private TextField urlBar;
+
 
     @FXML
     public void initialize() {
-        searchButton.setOnAction(event -> {
-            System.out.println("siuuu");
-        });
         manager = new FileSystemManager();
+        urlBar.setText(manager.getHomePath());
+        searchButton.setOnAction(event -> {
+        });
+        backButton.setOnAction(event ->{
+            cleanExplorer();
+            String currentPath = manager.getCurrentPath();
+            File file = new File(currentPath);
+            String newPath = file.getParent();
+            manager.setCurrentPath(newPath);
+            manager.setPreviousPath(currentPath);
+            File[] files = manager.getDirectoryFiles(newPath);
+            updateFiles(files);
+        });
     }
 
     public void initializeUI(){
@@ -51,18 +62,22 @@ public class Controller {
         sizeContainer.setPrefWidth(fileScroll.getPrefWidth());
         sizeContainer.setPrefHeight(fileScroll.getPrefHeight());
         sizeContainer.setMinHeight(fileScroll.getPrefHeight());
+        urlBar.setPrefWidth(screenWidth * 0.3);
+        backButton.setPrefWidth(screenWidth * 0.05);
     }
     public void fileMouseClick(MouseEvent event, File file, Label fileLabel, Label sizeLabel){
         if(event.getClickCount() == 2){
             System.out.println(fileLabel.getText());
-            manager.setPreviousPath(file.getParentFile().getAbsolutePath());
+            manager.setCurrentPath(file.getAbsolutePath());
+            manager.setPreviousPath(file.getParent());
+
             cleanExplorer();
             initializeUI();
-            String newPath = file.getAbsolutePath();
-            System.out.println(newPath);
-            File[] newFiles = manager.getDirectoryFiles(newPath);
+            File[] newFiles = manager.getDirectoryFiles(manager.getCurrentPath());
             if(newFiles.length > 0){
                 updateFiles(newFiles);
+            }else if(newFiles == null){
+                System.out.println("No files in this directory");
             }
         }else if(event.getClickCount() == 1){
             removeStyles();
@@ -97,6 +112,9 @@ public class Controller {
 
     public void updateFiles(File[] files){
         String formattedSize;
+        String currentPath = files[0].getParent();
+        manager.setCurrentPath(currentPath);
+        urlBar.setText(manager.getCurrentPath());
         Label nameTitle = new Label("Name");
         Label sizeTitle = new Label("Size");
         nameTitle.setPrefWidth(fileContainer.getPrefWidth());
@@ -144,6 +162,8 @@ public class Controller {
             sizeContainer.getChildren().add(sizeLabel);
             fileContainer.getChildren().add(fileLabel);
         }
+        System.out.println(manager.getCurrentPath());
+        System.out.println(manager.getPreviousPath());
     }
 
     public void cleanExplorer(){
