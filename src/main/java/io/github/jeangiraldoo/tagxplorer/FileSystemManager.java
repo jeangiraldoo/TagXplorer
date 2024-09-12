@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.Objects;
 
 public class FileSystemManager {
-    private String operatingSystem;
-    private String userName;
+    private final String operatingSystem;
+    private final String userName;
     private String homePath;
     private String currentPath;
     private String previousPath;
@@ -25,7 +25,6 @@ public class FileSystemManager {
     public File[] getDirectoryFiles(String dir){
         File directory = new File(dir);
         return directory.listFiles();
-
     }
     public String getFormattedSize(Double size){
         String formattedSize;

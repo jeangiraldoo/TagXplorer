@@ -5,9 +5,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 public class Controller {
     private double screenWidth, screenHeight;
@@ -28,7 +35,6 @@ public class Controller {
     @FXML
     private TextField urlBar;
 
-
     @FXML
     public void initialize() {
         manager = new FileSystemManager();
@@ -36,14 +42,16 @@ public class Controller {
         searchButton.setOnAction(event -> {
         });
         backButton.setOnAction(event ->{
-            cleanExplorer();
             String currentPath = manager.getCurrentPath();
             File file = new File(currentPath);
-            String newPath = file.getParent();
-            manager.setCurrentPath(newPath);
-            manager.setPreviousPath(currentPath);
-            File[] files = manager.getDirectoryFiles(newPath);
-            updateFiles(files);
+            if(file.getParent() != null){
+                cleanExplorer();
+                String newPath = file.getParent();
+                manager.setCurrentPath(newPath);
+                manager.setPreviousPath(currentPath);
+                File[] files = manager.getDirectoryFiles(newPath);
+                updateFiles(files);
+            }
         });
     }
 
@@ -67,17 +75,22 @@ public class Controller {
     }
     public void fileMouseClick(MouseEvent event, File file, Label fileLabel, Label sizeLabel){
         if(event.getClickCount() == 2){
+            Desktop desktop = Desktop.getDesktop();
             System.out.println(fileLabel.getText());
             manager.setCurrentPath(file.getAbsolutePath());
             manager.setPreviousPath(file.getParent());
 
-            cleanExplorer();
-            initializeUI();
-            File[] newFiles = manager.getDirectoryFiles(manager.getCurrentPath());
-            if(newFiles.length > 0){
+            if(file.isDirectory() /*&& newFiles.length > 0*/){
+                cleanExplorer();
+                initializeUI();
+                File[] newFiles = manager.getDirectoryFiles(manager.getCurrentPath());
                 updateFiles(newFiles);
-            }else if(newFiles == null){
-                System.out.println("No files in this directory");
+            }else if(file.isFile()){
+                try{
+                    desktop.open(file);
+                }catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }else if(event.getClickCount() == 1){
             removeStyles();
@@ -162,17 +175,11 @@ public class Controller {
             sizeContainer.getChildren().add(sizeLabel);
             fileContainer.getChildren().add(fileLabel);
         }
-        System.out.println(manager.getCurrentPath());
-        System.out.println(manager.getPreviousPath());
     }
 
     public void cleanExplorer(){
         fileContainer.getChildren().clear();
         sizeContainer.getChildren().clear();
-    }
-
-    public double getScreenWidth(){
-        return this.screenWidth;
     }
 
     public void setScreenWidth(double width){
